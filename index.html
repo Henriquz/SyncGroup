@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sync Group - Soluções Digitais</title>
+    <link type="image/png" sizes="120×120" rel="icon" href="imagens/logo-mini.png">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +37,10 @@
                 <h1 class="hero-title" data-animation="split-text">Sync Group: Soluções Digitais com Alma.</h1>
                 <p class="hero-subtitle" data-animation="fade-in">Desenvolvemos sites, sistemas e lojas virtuais que unem design impactante com tecnologia robusta.</p>
                 <div class="cta-container" data-animation="fade-in">
-                     <a href="#projetos" class="cta-button">Veja nossos projetos</a>
+                     <a href="#projetos" class="cta-button">Veja nossos projetos</a> <br>
+                     <a href="https://wa.me/5533999472138" class="cta-button" target="_blank">
+                         Fale conosco pelo WhatsApp
+                     </a>
                 </div>
             </div>
         </header>
@@ -79,13 +83,13 @@
                             <div class="image-carousel">
                                 <div class="carousel-container">
                                     <div class="image-card active">
-                                        <img src="imagens/Screenshot_1.png" alt="Captura de tela do site institucional moderno" loading="lazy">
+                                        <img src="imagens/Screenshot_1.png" alt="Tela do sistema de gestão de petshop PetSync" loading="lazy">
+                                    </div>
+                                    <div class="image-card active">
+                                        <img src="imagens/Screenshot_1.png" alt="Tela do sistema de gestão de petshop PetSync" loading="lazy">
                                     </div>
                                     <div class="image-card">
-                                        <img src="imagens/Screenshot_1.png" alt="Captura de tela do site institucional moderno" loading="lazy">
-                                    </div>
-                                    <div class="image-card">
-                                        <img src="imagens/Screenshot_1.png" alt="Captura de tela do site institucional moderno" loading="lazy">
+                                        <img src="imagens/Screenshot_1.png" alt="Tela de agendamento do PetSync" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="carousel-controls">
@@ -100,9 +104,9 @@
                             </div>
                         </div>
                         <div class="project-content">
-                            <h3 data-animation="split-text">Site Institucional Moderno</h3>
-                            <p data-animation="split-text">Desenvolvimento de um site responsivo para uma startup de tecnologia, focado em UX e performance.</p>
-                            <a href="#" class="project-link" data-animation="fade-in">Ver Estudo de Caso</a>
+                            <h3 data-animation="split-text">PetSync: Gestão Completa para Pet Shops</h3>
+                            <p data-animation="split-text">Um sistema web sob medida para automatizar e simplificar a rotina de pet shops. A plataforma centraliza agendamentos de serviços, histórico de clientes e pets, controle de estoque e gestão financeira em uma interface intuitiva.</p>
+                           <!-- <a href="#" class="project-link" data-animation="fade-in">Ver Estudo de Caso</a> -->
                         </div>
                     </article>
 
@@ -115,10 +119,10 @@
                                         <img src="imagens/Screenshot_1.png" alt="Captura de tela do site institucional moderno" loading="lazy">
                                     </div>
                                     <div class="image-card">
-                                        <img src="imagens/Screenshot_1.png" alt="Captura de tela do site institucional moderno" loading="lazy">
+                                        <img src="imagens/Screenshot_1.png" alt="Outra captura de tela do projeto" loading="lazy">
                                     </div>
                                     <div class="image-card">
-                                        <img src="imagens/Screenshot_1.png" alt="Captura de tela do site institucional moderno" loading="lazy">
+                                        <img src="imagens/Screenshot_1.png" alt="Mais uma captura de tela do projeto" loading="lazy">
                                     </div>
                                 </div>
                                 <div class="carousel-controls">
@@ -135,7 +139,7 @@
                         <div class="project-content">
                             <h3 data-animation="split-text">E-commerce de Alta Conversão</h3>
                             <p data-animation="split-text">Criação de uma loja virtual completa com integração de pagamentos e gestão de estoque.</p>
-                            <a href="#" class="project-link" data-animation="fade-in">Ver Estudo de Caso</a>
+                           <!-- <a href="#" class="project-link" data-animation="fade-in">Ver Estudo de Caso</a> -->
                         </div>
                     </article>
                 </div>
@@ -181,22 +185,37 @@
                 </div>
                 <div class="footer-social">
                     <h4>Conecte-se</h4>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="Github"><i class="fab fa-github"></i></a>
+                    <a href="https://wa.me/5533999472138" target="_blank" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.instagram.com/syncgroup_/" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
+
             </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2025 Sync Group. Todos os direitos reservados.</p>
+                <p>&copy; <span id="ano-atual"></span> Sync Group. Todos os direitos reservados.</p>
             </div>
         </footer>
     </div>
+    
+    <a href="https://wa.me/5533999472138" 
+       class="whatsapp-float" 
+       target="_blank" 
+       aria-label="Fale conosco pelo WhatsApp">
+       <i class="fab fa-whatsapp"></i>
+    </a>
 
+    <script>
+        document.getElementById("ano-atual").textContent = new Date().getFullYear();
+    </script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script src="https://unpkg.com/split-type"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
     <script src="script.js"></script>
+
 </body>
 </html>

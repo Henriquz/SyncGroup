@@ -33,13 +33,12 @@ body {
     color: var(--text-color);
     font-family: var(--font-secondary);
     width: 100%;
-    overflow-x: hidden; /* Alterado de visible para hidden */
+    overflow-x: hidden;
     cursor: auto;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     will-change: scroll-position;
-    transform: translateZ(0);
     background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
     background-color: #000000;
 }
@@ -123,34 +122,6 @@ a:focus {
     outline-offset: 2px;
 }
 
-/* === CORREÇÃO PARA VISIBILIDADE DO TÍTULO === */
-.hero-title, .hero-title *, .section-title, .section-title *,
-.project-content h3, .project-content h3 *, .project-content p, .project-content p *,
-h3, p { /* Regra genérica para garantir visibilidade */
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
-}
-
-/* Preparação para animações */
-.animations-ready .hero-title .word,
-.animations-ready .section-title .word,
-.animations-ready .project-content h3 .word,
-.animations-ready .project-content p .word {
-    opacity: 0;
-    transform: translateY(100%);
-    display: inline-block;
-    transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1), transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-    will-change: opacity, transform;
-}
-
-.animations-ready [data-animation="fade-in"] {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    will-change: opacity, transform;
-}
-
 /* === HERO SECTION OTIMIZADA === */
 .hero-title {
     font-family: var(--font-primary);
@@ -194,6 +165,7 @@ h3, p { /* Regra genérica para garantir visibilidade */
     letter-spacing: 0.5px;
     will-change: transform, box-shadow;
     animation: buttonFloat 6s ease-in-out infinite;
+    margin: 5px; /* Adiciona um pequeno espaçamento entre os botões */
 }
 
 @keyframes buttonFloat {
@@ -229,30 +201,52 @@ h3, p { /* Regra genérica para garantir visibilidade */
     transform-origin: left;
 }
 
-/* === NOVA SEÇÃO DE SERVIÇOS === */
-.services-section {
+/* === SEÇÕES E GRIDS === */
+.services-section, .projects-section, .testimonials-section {
     padding: clamp(100px, 15vw, 150px) 8%;
+}
+
+.services-section, .testimonials-section {
     background-color: var(--bg-color-light);
 }
 
-.services-grid {
+.projects-section {
+    min-height: 100vh;
+}
+
+.services-grid, .testimonials-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
     margin-top: clamp(60px, 10vw, 100px);
 }
 
-.service-card {
+.section-title-container {
+    overflow: visible;
+    margin-bottom: clamp(80px, 12vw, 120px);
+}
+
+.section-title {
+    font-family: var(--font-primary);
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    text-align: center;
+    color: var(--text-color);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* === CARDS DE SERVIÇO E DEPOIMENTO === */
+.service-card, .testimonial-card {
     background: var(--bg-color);
     padding: 40px;
     border-radius: 16px;
     border: 1px solid var(--border-color);
-    text-align: center;
     transition: var(--transition-smooth);
     will-change: transform, box-shadow;
 }
 
-.service-card:hover {
+.service-card:hover, .testimonial-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border-color: var(--accent-color);
@@ -272,193 +266,15 @@ h3, p { /* Regra genérica para garantir visibilidade */
     color: var(--text-color);
 }
 
-.service-card p {
+.service-card p, .testimonial-card p {
     color: var(--text-color-secondary);
     font-size: 1rem;
     line-height: 1.7;
 }
 
-/* === SEÇÃO DE PROJETOS OTIMIZADA === */
-.projects-section {
-    padding: clamp(100px, 15vw, 200px) 8%;
-    min-height: 100vh;
-}
-
-.section-title-container {
-    overflow: visible;
-    margin-bottom: clamp(80px, 12vw, 150px);
-}
-
-.section-title {
-    font-family: var(--font-primary);
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    text-align: center;
-    color: var(--text-color);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.projects-showcase {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(100px, 15vw, 200px);
-}
-
-.project-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8%;
-    will-change: opacity;
-}
-
-.project-item:nth-child(even) {
-    flex-direction: column;
-}
-
-.project-image {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-    will-change: transform;
-    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 107, 0.1));
-    aspect-ratio: 16 / 10; /* <<-- ADICIONE ESTA LINHA */
-}
-
-.project-image:hover {
-    transform: translateY(-10px) rotateX(5deg);
-    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6);
-}
-
-.project-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    border-radius: 16px;
-    will-change: transform;
-}
-
-.project-item:hover .project-image img {
-    transform: scale(1.08) rotate(1deg);
-}
-
-.image-shine-effect {
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(0, 212, 255, 0.15) 50%, rgba(255, 255, 255, 0) 100%);
-    transform: skewX(-25deg);
-    transition: left 0.6s ease;
-    z-index: 2;
-    border-radius: 16px;
-    will-change: left;
-}
-
-.project-item:hover .image-shine-effect {
-    left: 150%;
-}
-
-.project-content {
-    flex: 1;
-    text-align: left;
-}
-
-.project-content h3 {
-    font-family: var(--font-primary);
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    margin-bottom: 20px;
-    color: var(--text-color);
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    cursor: pointer;
-}
-
-.project-content h3:hover {
-    color: var(--accent-color);
-    transform: translateX(10px);
-    text-shadow: 0 0 20px var(--cursor-glow);
-}
-
-.project-content p {
-    font-size: clamp(1rem, 2.5vw, 1.1rem);
-    line-height: 1.7;
-    margin-bottom: 40px;
-    color: var(--text-color-secondary);
-}
-
-.project-link {
-    font-weight: 700;
-    position: relative;
-    display: inline-block;
-    font-size: clamp(1rem, 2.5vw, 1.1rem);
-    color: var(--accent-color);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 8px 0;
-    will-change: color;
-}
-
-.project-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(45deg, var(--accent-color), var(--cursor-secondary));
-    bottom: 4px;
-    left: 0;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-    will-change: transform;
-}
-
-.project-link:hover {
-    color: var(--accent-secondary);
-}
-
-.project-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
-}
-
-/* === NOVA SEÇÃO DEPOIMENTOS === */
-.testimonials-section {
-    padding: clamp(100px, 15vw, 150px) 8%;
-    background-color: var(--bg-color-light);
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 40px;
-    margin-top: clamp(60px, 10vw, 100px);
-}
-
-.testimonial-card {
-    background-color: var(--bg-color);
-    padding: 35px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 .testimonial-card p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: var(--text-color-secondary);
-    margin-bottom: 30px;
     font-style: italic;
+    margin-bottom: 30px;
 }
 
 .testimonial-author {
@@ -477,123 +293,92 @@ h3, p { /* Regra genérica para garantir visibilidade */
     color: var(--accent-color);
 }
 
-
-/* === NOVO RODAPÉ === */
-.footer {
-    background-color: #000;
-    color: var(--text-color-secondary);
-    padding: 80px 8% 30px;
-    border-top: 1px solid var(--border-color);
-}
-
-.footer-content {
+/* === SEÇÃO DE PROJETOS === */
+.projects-showcase {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 60px;
+    flex-direction: column;
+    gap: clamp(100px, 15vw, 200px);
 }
 
-.footer-about, .footer-links, .footer-social {
+.project-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px; /* Gap padrão para mobile-first */
+    will-change: opacity;
+}
+
+.project-image {
     flex: 1;
-    min-width: 220px;
+    position: relative;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    /* A altura será definida pela proporção no desktop e pelo conteúdo no mobile */
 }
 
-.footer-about h3 {
-    font-family: var(--font-primary);
-    font-size: 1.8rem;
-    color: var(--text-color);
-    margin-bottom: 15px;
-}
-
-.footer-links h4, .footer-social h4 {
-    font-family: var(--font-primary);
-    font-size: 1.2rem;
-    color: var(--text-color);
-    margin-bottom: 20px;
-}
-
-.footer-links ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-links ul li {
-    margin-bottom: 10px;
-}
-
-.footer-links a {
-    color: var(--text-color-secondary);
-    transition: var(--transition-fast);
-}
-
-.footer-links a:hover {
-    color: var(--accent-color);
-    padding-left: 5px;
-}
-
-.footer-social a {
-    color: var(--text-color-secondary);
-    font-size: 1.5rem;
-    margin-right: 20px;
-    transition: var(--transition-smooth);
-}
-
-.footer-social a:hover {
-    color: var(--accent-color);
-    transform: scale(1.2);
-}
-
-.footer-bottom {
+.project-content {
+    flex: 1;
     text-align: center;
-    padding-top: 30px;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.9rem;
+    width: 100%;
+    position: relative; /* Adicione esta linha */
+    z-index: 2;         /* Adicione esta linha */
 }
 
-/* === RESPONSIVIDADE OTIMIZADA === */
-@media (min-width: 1025px) {
-    .project-item {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 6%;
-    }
-    .project-item:nth-child(even) {
-        flex-direction: row-reverse;
-    }
-    .project-image {
-        flex: 0.8;
-        max-width: 45%;
-    }
-    .project-content {
-        flex: 1.2;
-        text-align: left;
-    }
+.project-content h3 {
+    font-family: var(--font-primary);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
-@media (max-width: 768px) {
-    .project-item,
-    .project-item:nth-child(even) {
-        flex-direction: column;
-        gap: 40px;
-        text-align: center;
-    }
-    .project-content {
-        text-align: center;
-    }
-    .project-image {
-        order: -1;
-    }
+.project-content p {
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    color: var(--text-color-secondary);
 }
 
-/* === CARROSSEL DE IMAGENS === */
+.project-link {
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    font-size: clamp(1rem, 2.5vw, 1.1rem);
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 0;
+}
+
+.project-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(45deg, var(--accent-color), var(--cursor-secondary));
+    bottom: 4px;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.project-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* === CARROSSEL DE IMAGENS (ESTRUTURA E TRANSIÇÃO) === */
 .image-carousel {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
     border-radius: inherit;
+    /* Adiciona a proporção aqui para o container geral no desktop */
+    aspect-ratio: 16 / 10;
 }
 
 .carousel-container {
@@ -614,7 +399,6 @@ h3, p { /* Regra genérica para garantir visibilidade */
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center center;
     backface-visibility: hidden;
-    will-change: transform, opacity;
 }
 
 .image-card.active {
@@ -638,73 +422,184 @@ h3, p { /* Regra genérica para garantir visibilidade */
 .image-card img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Comportamento padrão para desktop */
     border-radius: inherit;
-    transition: var(--transition-smooth);
 }
 
+/* Sobreposição escura para legibilidade (MÉTODO CORRIGIDO E SEGURO) */
+.image-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); 
+    border-radius: inherit;
+    z-index: 1; 
+    transition: background-color 0.3s ease;
+    pointer-events: none; 
+}
+
+/* Opcional: Escurece um pouco mais ao passar o mouse sobre a área do projeto 
+.project-item:hover .image-card::after {
+    background-color: rgba(0, 0, 0, 0.65);
+} */
+
+/* Remove a sobreposição da imagem ATIVA para que ela tenha brilho total */
+.image-card.active::after {
+    background-color: transparent; /* <-- ADICIONE ESTA NOVA REGRA */
+}
+
+/* === CONTROLES DO CARROSSEL (BOTÕES E INDICADORES) === */
 .carousel-controls {
     position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    padding: 8px 16px;
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 10;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 15px;
 }
 
 .carousel-btn {
-    background: transparent;
+    pointer-events: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10, 10, 10, 0.5);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
     border: none;
-    color: var(--text-color);
-    font-size: 18px;
     cursor: pointer;
-    padding: 5px 8px;
-    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    opacity: 0;
 }
 
+.image-carousel:hover .carousel-btn {
+    opacity: 1;
+}
+
+.carousel-btn.prev { left: 15px; }
+.carousel-btn.next { right: 15px; }
+
 .carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
     color: var(--accent-color);
-    transform: scale(1.1);
 }
 
 .carousel-indicators {
+    pointer-events: auto;
     display: flex;
-    gap: 8px;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 15px;
+    border-radius: 20px;
 }
 
 .indicator {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.5);
     cursor: pointer;
-    transition: var(--transition-fast);
+    transition: all 0.3s ease;
 }
 
 .indicator.active {
     background: var(--accent-color);
     transform: scale(1.2);
 }
-/* === OTIMIZAÇÃO DE PERFORMANCE PARA SCROLL === */
-body.is-scrolling .project-image,
-body.is-scrolling .project-content h3:hover,
-body.is-scrolling .project-link::after,
-body.is-scrolling .service-card {
-    transition: none !important;
-}
-/* === ANIMAÇÃO DE SCROLL OTIMIZADA COM CSS === */
 
-/*
-  Estado inicial: Define todos os elementos que queremos animar
-  como invisíveis e ligeiramente deslocados para baixo.
-*/
+/* === RODAPÉ === */
+.footer {
+    background-color: #000;
+    color: var(--text-color-secondary);
+    padding: 80px 8% 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.footer-about, .footer-links, .footer-social {
+    flex: 1;
+    min-width: 220px;
+}
+
+.footer-about h3, .footer-links h4, .footer-social h4 {
+    font-family: var(--font-primary);
+    color: var(--text-color);
+}
+
+.footer-links ul { list-style: none; }
+.footer-links ul li { margin-bottom: 10px; }
+
+.footer-links a:hover {
+    color: var(--accent-color);
+    padding-left: 5px;
+}
+
+.footer-social a {
+    font-size: 1.5rem;
+    margin-right: 20px;
+}
+
+.footer-social a:hover {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+/* === ÍCONE FLUTUANTE DO WHATSAPP === */
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #121212;
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    z-index: 9999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px var(--cursor-glow);
+    color: var(--accent-secondary);
+}
+
+/* === ANIMAÇÕES DE SCROLL (VIA JS) === */
 .section-title,
 .service-card,
 .project-item,
@@ -714,10 +609,6 @@ body.is-scrolling .service-card {
   transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/*
-  Estado final: Quando a classe .is-visible for adicionada via JavaScript,
-  os elementos se tornarão visíveis e voltarão à sua posição original.
-*/
 .section-title.is-visible,
 .service-card.is-visible,
 .project-item.is-visible,
@@ -726,14 +617,74 @@ body.is-scrolling .service-card {
   transform: translateY(0);
 }
 
-/*
-  Opcional: Adiciona um pequeno atraso (delay) para os cards de serviço e depoimentos,
-  criando um efeito mais escalonado e agradável.
-*/
 .service-card:nth-child(2),
 .testimonial-card:nth-child(2) {
   transition-delay: 0.1s;
 }
 .service-card:nth-child(3) {
   transition-delay: 0.2s;
+}
+
+/* === RESPONSIVIDADE E AJUSTES FINAIS === */
+
+/* Layout para Desktop */
+@media (min-width: 1025px) {
+    .project-item {
+        flex-direction: row;
+        align-items: center;
+        gap: 6%;
+    }
+    .project-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+    .project-content {
+        text-align: left;
+    }
+}
+
+/* Layout para Tablet e Mobile */
+@media (max-width: 768px) {
+    /* Remove a proporção fixa do carrossel para que a altura seja automática */
+    .image-carousel {
+        aspect-ratio: unset;
+    }
+
+    /* Simplifica o carrossel em mobile para garantir visibilidade e responsividade da imagem */
+    .carousel-container {
+        perspective: none; /* Desativa o efeito 3D que não é necessário */
+        position: static; /* Volta ao fluxo normal do documento */
+    }
+
+    .image-card {
+        position: relative; /* Tira do posicionamento absoluto */
+        display: none;      /* Esconde todos os cards por padrão */
+        height: auto;       /* Altura automática baseada no conteúdo */
+        transform: none !important; /* Reseta transformações do desktop */
+        opacity: 1 !important;      /* Garante visibilidade total */
+        transition: none;           /* Remove a transição de slide */
+    }
+
+    .image-card.active {
+        display: block; /* Mostra apenas o card ativo */
+    }
+
+    .image-card img {
+        position: static; /* Garante que a imagem fique no fluxo */
+        object-fit: cover; /* 'cover' preenche o espaço, 'contain' mostra tudo */
+        width: 100%;
+        height: auto; /* A altura se ajusta à proporção da imagem */
+        min-height: auto;
+    }
+    
+    /* Botões do carrossel sempre visíveis no mobile */
+    .image-carousel .carousel-btn {
+      opacity: 1;
+    }
+    
+    /* Ajuste de posicionamento dos indicadores para baixo da imagem */
+    .carousel-controls {
+        position: static; /* Volta ao fluxo normal */
+        padding-bottom: 0;
+        margin-top: 15px; /* Espaço entre a imagem e os indicadores */
+    }
 }

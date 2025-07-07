@@ -1,4 +1,4 @@
-// === INICIALIZAÇÃO OTIMIZADA COM PERFORMANCE MELHORADA V2 ===
+// === INICIALIZAÇÃO OTIMIZADA COM PERFORMANCE MELHORADA V3 ===
 (function() {
     'use strict';
     
@@ -10,15 +10,14 @@
         // Inicializa o carrossel de imagens (independente de libs)
         initializeImageCarousels();
         
-        // Inicializa comportamento de scroll suave
-      //  initializeScrollBehavior();
-        
         // Verifica bibliotecas e inicializa animações avançadas com um pequeno delay
         setTimeout(checkLibrariesAndInitialize, 100);
     });
 
     function ensureTextVisibility() {
-        const elements = document.querySelectorAll('.hero-title, .hero-subtitle, .cta-container, .section-title, .project-content h3, .project-content p');
+        // Esta função pode ser removida se as animações forem tratadas puramente por JS/GSAP
+        // ou mantida como um fallback de segurança.
+        const elements = document.querySelectorAll('.hero-title, .hero-subtitle, .cta-container');
         elements.forEach(el => {
             el.style.opacity = '1';
             el.style.visibility = 'visible';
@@ -36,108 +35,46 @@
 
     function checkLibrariesAndInitialize() {
         if (isLibraryLoaded('gsap') && isLibraryLoaded('SplitType')) {
-            console.log('Bibliotecas de animação carregadas. Iniciando...');
             initializeAnimations();
         } else {
-            console.warn('Bibliotecas de animação (GSAP, SplitType) não carregadas.');
+            console.warn('Bibliotecas de animação (GSAP, SplitType) não carregadas. As animações avançadas não funcionarão.');
         }
     }
-
-    // === SCROLL SUAVE OTIMIZADO ===
-    function initializeScrollBehavior() {
-        if (!isLibraryLoaded('Lenis')) return;
-        safeExecute(() => {
-            const lenis = new Lenis({
-                lerp: 20.90, // Valor ajustado para maior suavidade
-                smoothTouch: false,
-            });
-
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
-            if (isLibraryLoaded('gsap') && isLibraryLoaded('ScrollTrigger')) {
-                lenis.on('scroll', ScrollTrigger.update);
-                gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-                gsap.ticker.lagSmoothing(0);
-            }
-        }, 'Erro ao inicializar Lenis');
-    }
     
-    // === ANIMAÇÕES OTIMIZADAS V3 (COM CLASSES CSS) ===
-function initializeAnimations() {
-    if (!isLibraryLoaded('gsap') || !isLibraryLoaded('ScrollTrigger')) return;
+    // === ANIMAÇÕES OTIMIZADAS COM GSAP E SCROLLTRIGGER ===
+    function initializeAnimations() {
+        gsap.registerPlugin(ScrollTrigger);
 
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Seleciona todos os elementos que devem ser animados ao aparecer na tela
-    const animatedElements = document.querySelectorAll(
-        '.section-title, .service-card, .project-item, .testimonial-card'
-    );
-
-    animatedElements.forEach(element => {
-        ScrollTrigger.create({
-            trigger: element, // O elemento que dispara a animação
-            start: 'top 85%', // Quando o topo do elemento atinge 85% da altura da tela
-            onEnter: () => element.classList.add('is-visible'), // A única ação: adiciona a classe
-            once: true // Garante que a animação aconteça apenas uma vez
-        });
-    });
-
-    // A animação de entrada do site (Hero) pode ser mantida, pois só ocorre uma vez no carregamento.
-    const heroTitle = new SplitType('.hero-title', { types: 'words' });
-    gsap.from(heroTitle.words, {
-        yPercent: 100,
-        opacity: 0,
-        stagger: 0.05,
-        duration: 0.8,
-        ease: 'power3.out'
-    });
-    gsap.from('.hero-subtitle, .cta-container', {
-        opacity: 0,
-        y: 20,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: 'power2.out',
-        delay: 0.3
-    });
-
-
-        // ANIMAÇÃO DE TÍTULOS DE SEÇÃO (MUITO MAIS LEVE)
-        document.querySelectorAll('.section-title').forEach(title => {
-            gsap.from(title, {
-                scrollTrigger: { trigger: title, start: 'top 85%', toggleActions: 'play none none none' },
-                opacity: 0,
-                y: 30,
-                duration: 0.8,
-                ease: 'power3.out'
-            });
+        // Animação de entrada do Hero
+        const heroTitle = new SplitType('.hero-title', { types: 'words' });
+        gsap.from(heroTitle.words, {
+            yPercent: 100,
+            opacity: 0,
+            stagger: 0.05,
+            duration: 0.8,
+            ease: 'power3.out'
         });
 
-        // ANIMAÇÃO DOS PROJETOS (CORRIGIDA E MAIS LEVE)
-        document.querySelectorAll('.project-item').forEach(item => {
-            const image = item.querySelector('.project-image');
-            const contentElements = item.querySelectorAll('.project-content > *');
+        gsap.from('.hero-subtitle, .cta-container', {
+            opacity: 0,
+            y: 20,
+            stagger: 0.1,
+            duration: 0.6,
+            ease: 'power2.out',
+            delay: 0.3
+        });
 
-            // Animação da IMAGEM: removido o opacity:0 para garantir que ela sempre apareça.
-            // Apenas um efeito sutil de escala.
-            gsap.from(image, {
-                scrollTrigger: { trigger: item, start: 'top 80%', toggleActions: 'play none none none' },
-                scale: 0.95, // Efeito de zoom sutil
-                duration: 1.2,
-                ease: 'expo.out'
-            });
+        // Animação de elementos ao entrarem na tela (Scroll)
+        const animatedElements = document.querySelectorAll(
+            '.section-title, .service-card, .project-item, .testimonial-card'
+        );
 
-            // Animação do CONTEÚDO do projeto
-            gsap.from(contentElements, {
-                scrollTrigger: { trigger: item, start: 'top 75%', toggleActions: 'play none none none' },
-                opacity: 0,
-                y: 20,
-                stagger: 0.1,
-                duration: 0.8,
-                ease: 'power2.out'
+        animatedElements.forEach(element => {
+            ScrollTrigger.create({
+                trigger: element,
+                start: 'top 85%',
+                onEnter: () => element.classList.add('is-visible'),
+                once: true
             });
         });
     }
@@ -145,43 +82,90 @@ function initializeAnimations() {
     // === CARROSSEL DE IMAGENS ===
     function initializeImageCarousels() {
         document.querySelectorAll('.image-carousel').forEach(carousel => {
-            const cards = carousel.querySelectorAll('.image-card');
+            const cards = Array.from(carousel.querySelectorAll('.image-card'));
             const prevBtn = carousel.querySelector('.carousel-btn.prev');
             const nextBtn = carousel.querySelector('.carousel-btn.next');
-            const indicators = carousel.querySelectorAll('.indicator');
-            if (cards.length === 0) return;
+            const indicators = Array.from(carousel.querySelectorAll('.indicator'));
+            if (cards.length <= 1) { // Se não houver imagens ou apenas uma, esconde os controles
+                if (carousel.querySelector('.carousel-controls')) {
+                   carousel.querySelector('.carousel-controls').style.display = 'none';
+                }
+                return;
+            }
 
             let currentIndex = 0;
+            let isTransitioning = false;
 
-            function updateCarousel(newIndex) {
+            function updateCarousel(newIndex, isInstant = false) {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                
                 currentIndex = (newIndex + cards.length) % cards.length;
                 
                 cards.forEach((card, index) => {
                     card.classList.remove('active', 'prev', 'next');
-                    if(index === currentIndex) {
-                        card.classList.add('active');
-                    }
+                    if(index === currentIndex) card.classList.add('active');
                 });
 
                 const prevIndex = (currentIndex - 1 + cards.length) % cards.length;
                 const nextIndex = (currentIndex + 1) % cards.length;
+                
                 if(cards[prevIndex]) cards[prevIndex].classList.add('prev');
                 if(cards[nextIndex]) cards[nextIndex].classList.add('next');
                 
                 indicators.forEach((ind, index) => {
                     ind.classList.toggle('active', index === currentIndex);
                 });
+
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, isInstant ? 50 : 600); // Tempo de transição mais curto se for instantâneo
             }
 
-            if (nextBtn) nextBtn.addEventListener('click', () => updateCarousel(currentIndex + 1));
-            if (prevBtn) prevBtn.addEventListener('click', () => updateCarousel(currentIndex - 1));
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    updateCarousel(currentIndex + 1);
+                });
+            }
             
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => updateCarousel(index));
+            if (prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    updateCarousel(currentIndex - 1);
+                });
+            }
+            
+            indicators.forEach((indicator) => {
+                indicator.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const slideIndex = parseInt(e.currentTarget.dataset.slide, 10);
+                    updateCarousel(slideIndex);
+                });
             });
 
-            // Garante que o estado inicial seja aplicado
-            updateCarousel(0);
+            // Suporte a swipe para mobile
+            let touchStartX = 0;
+            const minSwipeDistance = 50;
+
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+            }, { passive: true });
+
+            carousel.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].clientX;
+                const swipeDistance = touchStartX - touchEndX;
+                
+                if (Math.abs(swipeDistance) > minSwipeDistance) {
+                    if (swipeDistance > 0) { // Swipe para a esquerda
+                        updateCarousel(currentIndex + 1);
+                    } else { // Swipe para a direita
+                        updateCarousel(currentIndex - 1);
+                    }
+                }
+            }, { passive: true });
+
+            updateCarousel(0, true);
         });
     }
 
